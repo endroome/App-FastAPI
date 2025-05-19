@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build: /app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - sqlite_data:/app/db
+    env_file:
+      - .env
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+
+#  migrate:
+#    build: /app
+#    volumes:
+#      - .:/app
+#      - sqlite_data:/app/db
+#    env_file:
+#      - .env
+#    command: alembic upgrade head
+#    depends_on:
+#      - app
+
+volumes:
+  sqlite_data:
